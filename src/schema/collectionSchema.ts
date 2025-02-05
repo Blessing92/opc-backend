@@ -17,4 +17,4 @@ export const collectionTypeDefs = `#graphql
   extend type Mutation {
     addCollection(input: CollectionInput!): Collection
   }
-`;
+`

@@ -32,4 +32,4 @@ export const courseTypeDefs = `#graphql
     ASC
     DESC
   }
-`;
+`

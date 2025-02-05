@@ -6,4 +6,4 @@ export const baseTypeDefs = `#graphql
   type Mutation {
     _empty: String
   }
-`;
+`
