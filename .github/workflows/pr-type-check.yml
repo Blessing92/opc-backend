@@ -2,33 +2,9 @@ name: Typecheck
 on:
   push:
     branches:
-        - main
+      - main
 
 jobs:
-  type-check-app:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
-      - run: npm ci
-        working-directory: app
-      - run: npx tsc --noEmit
-        working-directory: app
-
-  type-check-shared:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
-      - run: npm ci
-        working-directory: shared
-      - run: npx tsc --noEmit
-        working-directory: shared
-
   type-check-backend:
     runs-on: ubuntu-latest
     steps:
@@ -37,6 +13,6 @@ jobs:
         with:
           node-version: latest
       - run: npm ci
-        working-directory: backend
+        working-directory: .
       - run: npx tsc --noEmit
-        working-directory: backend
+        working-directory: .

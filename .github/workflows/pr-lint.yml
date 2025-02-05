@@ -13,18 +13,6 @@ jobs:
         with:
           node-version: latest
       - run: npm ci
-        working-directory: backend
+        working-directory: .
       - run: npm run lint
-        working-directory: backend
-
-  lint-app:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
-      - run: npm ci
-        working-directory: app
-      - run: npm run lint
-        working-directory: app
+        working-directory: .
