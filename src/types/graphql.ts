@@ -3,6 +3,7 @@ export interface CourseInput {
   description: string
   duration: string
   outcome: string
+  collectionId?: string
 }
 
 export type UpdateCourseInput = Partial<CourseInput>

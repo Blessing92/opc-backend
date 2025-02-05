@@ -1,36 +1,41 @@
-import { Request, Response } from 'express';
-import { verify, JwtPayload } from 'jsonwebtoken';
+import { Request, Response } from "express"
+import { verify, JwtPayload } from "jsonwebtoken"
 
 export interface UserPayload extends JwtPayload {
-  req: Request;
-  res: Response;
-  user: "USER" | "ADMIN";
+  req: Request
+  res: Response
+  user: "USER" | "ADMIN"
 }
 
 export interface GraphQLContext {
-  req: Request;
-  res: Response;
-  user?: UserPayload;
+  req: Request
+  res: Response
+  user?: UserPayload
 }
 
 export const authenticateUser = (context: GraphQLContext): UserPayload => {
   if (!context) {
-    throw new Error("Authentication required");
+    throw new Error("Authentication required")
   }
-  const authHeader = context.req.headers.authorization;
+  const authHeader = context.req.headers.authorization
   if (authHeader) {
-    const token = authHeader.replace("Bearer ", "");
+    const token = authHeader.replace("Bearer ", "")
     if (!token) {
-      throw new Error("No token provided");
+      throw new Error("No token provided")
     }
 
-    const decoded = verify(token, process.env.JWT_SECRET!) as UserPayload;
+    const decoded = verify(token, process.env.JWT_SECRET!) as UserPayload
     if (!decoded.id) {
-      throw new Error("Invalid token");
+      throw new Error("Invalid token")
     }
 
-    return decoded
+    return {
+      ...decoded,
+      req: context.req,
+      res: context.res,
+      user: decoded.user,
+    }
   }
 
-  throw new Error("Authentication required");
+  throw new Error("Authentication required")
 }
