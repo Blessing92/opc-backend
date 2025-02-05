@@ -16,7 +16,7 @@
     "typeRoots": [
       "./types", "./node_modules/@types"
     ],
-    "types": ["jest"],
+    "types": ["node"],
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env"],
   "exclude": ["node_modules"]
