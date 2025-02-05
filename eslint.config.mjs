@@ -10,7 +10,6 @@ export default [
     rules: {
       "no-unused-vars": "error",
       "prefer-const": ["error", { ignoreReadBeforeAssign: true }],
-      "no-undef": "error",
     },
   },
   pluginJs.configs.recommended,

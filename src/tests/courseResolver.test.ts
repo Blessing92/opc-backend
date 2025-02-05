@@ -57,7 +57,7 @@ jest.mock("../resolvers/courseResolver", () => ({
     },
     Mutation: {
       addCourse: jest.fn(() => Promise.resolve(mockedCourses[0])),
-      updateCourse: jest.fn((_, { id, input }) => {
+      updateCourse: jest.fn((_, { input }) => {
         return { ...mockedCourses[0], ...input }
       }),
       deleteCourse: jest.fn(() => Promise.resolve("Course deleted")),
