@@ -14,15 +14,23 @@ export interface GraphQLContext {
 }
 
 export const authenticateUser = (context: GraphQLContext): UserPayload => {
-  const token = context.req.headers.authorization?.split(" ")[1];
-  if (!token) {
+  if (!context) {
     throw new Error("Authentication required");
   }
+  const authHeader = context.req.headers.authorization;
+  if (authHeader) {
+    const token = authHeader.replace("Bearer ", "");
+    if (!token) {
+      throw new Error("No token provided");
+    }
 
-  const decoded = verify(token, process.env.JWT_SECRET!) as UserPayload;
-  if (!decoded.id) {
-    throw new Error("Invalid token");
+    const decoded = verify(token, process.env.JWT_SECRET!) as UserPayload;
+    if (!decoded.id) {
+      throw new Error("Invalid token");
+    }
+
+    return decoded
   }
 
-  return decoded
+  throw new Error("Authentication required");
 }

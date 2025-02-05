@@ -1,4 +1,4 @@
-export const typeDefs = `#graphql
+export const courseTypeDefs = `#graphql
   type Course {
     id: ID!
     title: String!

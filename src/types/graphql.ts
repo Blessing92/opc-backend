@@ -8,8 +8,8 @@ export interface CourseInput {
 export interface UpdateCourseInput extends Partial<CourseInput> {}
 
 export interface QueryCoursesArgs {
-  limit: number;
-  sortOrder: "ASC" | "DESC";
+  limit?: number;
+  sortOrder?: "ASC" | "DESC";
 }
 
 export interface QueryCourseArgs {
@@ -27,4 +27,21 @@ export interface MutationUpdateCourseArgs {
 
 export interface MutationDeleteCourseArgs {
   id: string;
+}
+
+export interface MutationAuthArgs {
+  input: {
+    username: string;
+    password: string;
+  };
+}
+
+export interface QueryCollectionArgs {
+  id: string;
+}
+
+export interface MutationAddCollectionArgs {
+  input: {
+    name: string
+  };
 }

@@ -1,12 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "dist",
-    "strict": true,
+    "module": "commonjs",
+    "target": "es6",
+    "lib": ["es6", "dom", "es2022"],
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "allowJs": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "strict": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": [
+      "./types", "./node_modules/@types"
+    ],
+    "types": ["jest"],
   },
-  "include": ["src"]
+  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+  "exclude": ["node_modules"]
 }

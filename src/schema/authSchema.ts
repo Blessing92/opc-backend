@@ -1,4 +1,4 @@
-export const typeDefs = `#graphql
+export const authTypeDefs = `#graphql
   type User {
     id: ID!
     username: String!
@@ -14,9 +14,18 @@ export const typeDefs = `#graphql
     token: String!
     user: User!
   }
+  
+  input AuthInput {
+    username: String!
+    password: String!
+  }
+  
+  type Query {
+    me: User
+  }
 
   extend type Mutation {
-    register(username: String!, password: String!): AuthPayload
-    login(username: String!, password: String!): AuthPayload
+    register(input: AuthInput!): AuthPayload
+    login(input: AuthInput!): AuthPayload
   }
 `;
