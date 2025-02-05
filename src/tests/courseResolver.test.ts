@@ -5,7 +5,7 @@ import {
   MutationUpdateCourseArgs,
 } from "../types/graphql"
 import { courseResolver } from "../resolvers/courseResolver"
-import { PrismaClient, Course } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import { GraphQLError } from "graphql/error"
 
 const prismaClient = new PrismaClient()
@@ -51,13 +51,13 @@ jest.mock("../resolvers/courseResolver", () => ({
   courseResolver: {
     Query: {
       courses: jest.fn(() => Promise.resolve(mockedCourses)),
-      course: jest.fn((parent, { id }, context) => {
+      course: jest.fn((_, { id }) => {
         return mockedCourses.find((course) => course.id === id) || null
       }),
     },
     Mutation: {
       addCourse: jest.fn(() => Promise.resolve(mockedCourses[0])),
-      updateCourse: jest.fn((parent, { id, input }, context) => {
+      updateCourse: jest.fn((_, { id, input }) => {
         return { ...mockedCourses[0], ...input }
       }),
       deleteCourse: jest.fn(() => Promise.resolve("Course deleted")),
