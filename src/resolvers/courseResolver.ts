@@ -11,8 +11,18 @@ import {
 import { GraphQLError } from "graphql/error"
 
 const isAdmin = (userRole: string): boolean => userRole === "ADMIN"
-const isOwner = (currentUserId: string, resourceUserId: string): boolean =>
-  currentUserId === resourceUserId
+
+const checkOwnershipOrAdmin = (
+  userRole: string,
+  currentUserId: string,
+  resourceUserId: string,
+): boolean => {
+  if (isAdmin(userRole)) return true
+  if (currentUserId === resourceUserId) return true
+  throw new GraphQLError("You do not have permission to perform this action", {
+    extensions: { code: "UNAUTHORISED" },
+  })
+}
 
 export const courseResolver = {
   Query: {
@@ -82,15 +92,7 @@ export const courseResolver = {
         })
       }
 
-      // Admins can update any course, but regular users can only update their own courses
-      if (!isAdmin(user.role) && !isOwner(user.id, course.createdById)) {
-        throw new GraphQLError(
-          "You do not have permission to update this course",
-          {
-            extensions: { code: "UNAUTHORISED" },
-          },
-        )
-      }
+      checkOwnershipOrAdmin(user.role, user.id, course.createdById)
 
       const updatedCourse = await prisma.course.update({
         where: { id },
@@ -115,15 +117,7 @@ export const courseResolver = {
         })
       }
 
-      // Admins can delete any course, but regular users can only delete their own courses
-      if (!isAdmin(user.role) && !isOwner(user.id, course.createdById)) {
-        throw new GraphQLError(
-          "You do not have permission to delete this course",
-          {
-            extensions: { code: "UNAUTHORISED" },
-          },
-        )
-      }
+      checkOwnershipOrAdmin(user.role, user.id, course.createdById)
 
       await prisma.course.delete({ where: { id } })
       return "Course deleted"

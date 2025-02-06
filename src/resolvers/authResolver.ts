@@ -7,10 +7,13 @@ import { GraphQLError } from "graphql/error"
 import { GraphQLContext } from "../context"
 
 const generateToken = (user: User): string => {
-  const token = sign({ id: user.id }, process.env.JWT_SECRET!, {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET in not set in environment variables")
+  }
+
+  return sign({ id: user.id }, process.env.JWT_SECRET!, {
     expiresIn: "2h",
   })
-  return token
 }
 
 export const authResolver = {

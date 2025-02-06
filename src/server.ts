@@ -17,12 +17,15 @@ const server = new ApolloServer<GraphQLContext>({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  allowBatchedHttpRequests: true,
+  cache: "bounded", // Enable the cache
 })
 
 const startServer = async () => {
   await server.start()
 
   app.use(
+    "/graphql",
     cors(),
     bodyParser.json(),
     expressMiddleware(server, {
